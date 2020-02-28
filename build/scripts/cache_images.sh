@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright (c) 2012-2018 Red Hat, Inc.
+# Copyright (c) 2018-2020 Red Hat, Inc.
 # This program and the accompanying materials are made
 # available under the terms of the Eclipse Public License 2.0
 # which is available at https://www.eclipse.org/legal/epl-2.0/
@@ -28,6 +28,9 @@ mkdir -p "$RESOURCES_DIR" "$TEMP_DIR"
 
 echo "Caching images referenced in devfiles"
 while read -r image; do
+  if [[ ! "$image" == http* ]]; then
+    continue
+  fi
   # Workaround for getting filenames through content-disposition: copy to temp
   # dir and read filename before moving to /resources.
   wget -P "${TEMP_DIR}" -nv --content-disposition "${image}"
